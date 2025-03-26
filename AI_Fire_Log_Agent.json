@@ -1,0 +1,790 @@
+{
+  "name": "AI Fire Log Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "chatId": "653390455",
+        "text": "=Dear Parsa,\n\nThe Fire Alarm Testing should be completed on {{ $json['Readable date'] }}, {{ $json['Day of week'] }}. Please conirm the task completion by selecting one option below:\n\nThank you,\nFire Log Agent 007",
+        "replyMarkup": "replyKeyboard",
+        "replyKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Fire Alarm Testing Completed",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "Fire Alarm Testing Not Completed",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "replyKeyboardOptions": {
+          "resize_keyboard": true,
+          "one_time_keyboard": true,
+          "selective": true
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -440,
+        -560
+      ],
+      "id": "e1e25736-fbfc-4ea6-b6c4-9a03bc04a5fe",
+      "name": "Telegram",
+      "webhookId": "bf62cfa4-bb02-459a-9509-a67cb0cdf5f6",
+      "credentials": {
+        "telegramApi": {
+          "id": "lN8ZgHEhZEtbo5CN",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -80,
+        -320
+      ],
+      "id": "eacebaf0-82f9-4b2f-b9f0-49774f5eedbd",
+      "name": "Telegram Trigger",
+      "webhookId": "0d200810-95e9-4442-ae7f-d8d0e934e280",
+      "credentials": {
+        "telegramApi": {
+          "id": "lN8ZgHEhZEtbo5CN",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('If').item.json.message.from.id }}",
+        "text": "=Thank you Mr. Parsa.\nYour response has been recorded in the database as completed.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        620,
+        -320
+      ],
+      "id": "e0a6b6d6-2f47-4daf-b398-fbba38d4a853",
+      "name": "Telegram1",
+      "webhookId": "da9f5612-f101-4fe2-a1cc-130123404e87",
+      "credentials": {
+        "telegramApi": {
+          "id": "lN8ZgHEhZEtbo5CN",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -600,
+        -560
+      ],
+      "id": "f58b0255-aec2-47af-8f3c-c19c0baaf197",
+      "name": "Schedule Trigger",
+      "notesInFlow": true,
+      "notes": "Fire Alarm Testing"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1FviXbIib-vt1PiUNY0NQ5EPYw5e4gkbU9wo78VqMjqo",
+          "mode": "list",
+          "cachedResultName": "Fire Alarm System Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FviXbIib-vt1PiUNY0NQ5EPYw5e4gkbU9wo78VqMjqo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FviXbIib-vt1PiUNY0NQ5EPYw5e4gkbU9wo78VqMjqo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "DATE": "={{ $now.format('dd-MM-yyyy') }}",
+            "TIME": "={{ $now.format('hh:mm a') }}",
+            "Location": "Call Unit",
+            "Conducted by": "Parsa Watsfaleh",
+            "Result of Check": "OK",
+            "Comment": "N/A"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "DATE",
+              "displayName": "DATE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TIME",
+              "displayName": "TIME",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Location",
+              "displayName": "Location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Conducted by",
+              "displayName": "Conducted by",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Result of Check",
+              "displayName": "Result of Check",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Comment",
+              "displayName": "Comment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        400,
+        -320
+      ],
+      "id": "f4b91a48-5d3c-4499-ad22-287b63c58a7f",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "EiZiJEQT5sY8Vpi0",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "653390455",
+        "text": "=Dear Parsa,\n\nThe Fire Exits/Routes Evacuation check should be completed on {{ $json['Readable date'] }}, {{ $json['Day of week'] }}. Please conirm the task completion below by clicking the buttons.\n\nThank you,\nFire Log Agent 007",
+        "replyMarkup": "replyKeyboard",
+        "replyKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Fire Evacuation Test Completed",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "Fire Evacuation Test Not Completed",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "replyKeyboardOptions": {
+          "resize_keyboard": true,
+          "one_time_keyboard": true,
+          "selective": true
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML",
+          "reply_to_message_id": 0
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -440,
+        -380
+      ],
+      "id": "096bf57f-ee78-4c1f-8059-70b23f7d4b0f",
+      "name": "Telegram2",
+      "webhookId": "bf62cfa4-bb02-459a-9509-a67cb0cdf5f6",
+      "credentials": {
+        "telegramApi": {
+          "id": "lN8ZgHEhZEtbo5CN",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -600,
+        -380
+      ],
+      "id": "801e4782-9f37-424a-921e-8201c96363fd",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "chatId": "653390455",
+        "text": "=Dear Parsa,\n\nThe Fire Alarm Testing should be completed on {{ $json['Readable date'] }}, {{ $json['Day of week'] }}. Please conirm the task completion below by clicking the buttons.\n\nThank you,\nFire Log Agent 007",
+        "replyMarkup": "replyKeyboard",
+        "replyKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Fire Alarm Testing Completed",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "Fire Alarm Testing Not Completed",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "replyKeyboardOptions": {
+          "resize_keyboard": true,
+          "one_time_keyboard": true,
+          "selective": true
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML",
+          "reply_to_message_id": 0
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -440,
+        -220
+      ],
+      "id": "0f443678-26d5-4877-b967-ef3754873d98",
+      "name": "Telegram3",
+      "webhookId": "bf62cfa4-bb02-459a-9509-a67cb0cdf5f6",
+      "credentials": {
+        "telegramApi": {
+          "id": "lN8ZgHEhZEtbo5CN",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -600,
+        -220
+      ],
+      "id": "4f15bde9-b157-4e50-b698-43b38afcb798",
+      "name": "Schedule Trigger2"
+    },
+    {
+      "parameters": {
+        "chatId": "653390455",
+        "text": "=Dear Parsa,\n\nThe Fire Alarm Testing should be completed on {{ $json['Readable date'] }}, {{ $json['Day of week'] }}. Please conirm the task completion below by clicking the buttons.\n\nThank you,\nFire Log Agent 007",
+        "replyMarkup": "replyKeyboard",
+        "replyKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Fire Alarm Testing Completed",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "Fire Alarm Testing Not Completed",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "replyKeyboardOptions": {
+          "resize_keyboard": true,
+          "one_time_keyboard": true,
+          "selective": true
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML",
+          "reply_to_message_id": 0
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -440,
+        -40
+      ],
+      "id": "af14aca0-9c0f-456f-a08a-032c73a8da9f",
+      "name": "Telegram4",
+      "webhookId": "bf62cfa4-bb02-459a-9509-a67cb0cdf5f6",
+      "credentials": {
+        "telegramApi": {
+          "id": "lN8ZgHEhZEtbo5CN",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -600,
+        -40
+      ],
+      "id": "0e5f1188-c85c-4dd2-a1c2-ee44797efd61",
+      "name": "Schedule Trigger3"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Switch1').item.json.message.from.id }}",
+        "text": "=Thank you Mr. Parsa.\nYour response for Fire Exits/Route Evacuation checks has been recorded in the database as completed.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        620,
+        -140
+      ],
+      "id": "10f99c51-1e9a-4e04-9a37-e04ad00cb330",
+      "name": "Telegram5",
+      "webhookId": "da9f5612-f101-4fe2-a1cc-130123404e87",
+      "credentials": {
+        "telegramApi": {
+          "id": "lN8ZgHEhZEtbo5CN",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1iCIDhosjCsZlplHlHj2wiQkHTTaQ0M9UaS2QBJH8jhc",
+          "mode": "list",
+          "cachedResultName": "Fire Exits/Routes Evacuation Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iCIDhosjCsZlplHlHj2wiQkHTTaQ0M9UaS2QBJH8jhc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iCIDhosjCsZlplHlHj2wiQkHTTaQ0M9UaS2QBJH8jhc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "DATE": "={{ $now.format('dd-MM-yyyy') }}",
+            "TIME": "={{ $now.format('hh:mm a') }}",
+            "Conducted by": "Parsa Watsfaleh",
+            "Result of Check": "OK",
+            "Comment": "N/A"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "DATE",
+              "displayName": "DATE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TIME",
+              "displayName": "TIME",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Conducted by",
+              "displayName": "Conducted by",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Result of Check",
+              "displayName": "Result of Check",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Comment",
+              "displayName": "Comment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        400,
+        -140
+      ],
+      "id": "861bec13-d2c9-48b2-baef-9e0d04c18b81",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "EiZiJEQT5sY8Vpi0",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "Fire Alarm Testing Completed",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "c535f351-ecc3-404e-aa7c-7d33d914b106"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "18328ec2-e447-4fd7-b8f0-b319a6163254",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "Fire Evacuation Test Completed",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "160477e7-1992-43b5-be47-cdae45de19f9",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "7a94c611-2019-480d-9585-7c271d59fab7",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        140,
+        -320
+      ],
+      "id": "a9b148e2-d6b4-430b-bd80-7690d9c90d8f",
+      "name": "Switch1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram": {
+      "main": [
+        []
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Telegram2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger2": {
+      "main": [
+        [
+          {
+            "node": "Telegram3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger3": {
+      "main": [
+        [
+          {
+            "node": "Telegram4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Telegram5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4ed31c4f-af8d-4140-bc77-ff39e6a487d0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7778021ca1156ae352d3304ba9c2c07a39d210de94cfae6a442e25b4654c1dbb"
+  },
+  "id": "TJn6XjjE3ehi4mq0",
+  "tags": []
+}
